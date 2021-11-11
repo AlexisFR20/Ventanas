@@ -33,32 +33,14 @@ posicion = str(ancho_ventana) + "x" + str(alto_ventana) + \
 window.geometry(posicion)
 
 # Configuraciones de botones a utilizar
-flag_WebClientFile = True
-flag_LMSFile = True
-flag_GZIPFile = True
-flag_Fecha = True
-flag_Numero = True
-flag_Lenguaje = True
-flag_NoWrap = True
+flag_wClient = True
+flag_lmsp = True
+flag_fzip = True
+flag_fecha = True
+flag_fnumber = True
+flag_lenguaje = True
+flag_wrap = True
 ajuste_x_btn = 400
-
-
-def Switch(button):
-    global flag_WebClientFile
-    global flag_LMSFile
-    global flag_GZIPFile
-    global flag_Fecha
-    global flag_Numero
-    global flag_Lenguaje
-    global flag_NoWrap
-
-    if flag_Numero:
-        btn_fecha.config(image=off)
-        flag_Numero = False
-    else:
-
-        btn_fecha.config(image=on)
-        flag_Numero = True
 
 
 # Fuente a utilizar
@@ -154,7 +136,6 @@ button_1 = Button(
     highlightthickness=0,
     command=check,
     relief="flat",
-    # font=btn_font,
     bg="#C13737",
     fg='#FFFFFF'
 )
@@ -172,7 +153,6 @@ button_2 = Button(
     highlightthickness=0,
     # command=installLMS,
     relief="flat",
-    # font=btn_font,
     bg="#C13737",
     fg='#FFFFFF'
 )
@@ -193,6 +173,8 @@ canvas.create_text(
     font=(sbtl_font)
 )
 
+
+
 canvas.create_text(
     114.0,
     291.0,
@@ -201,11 +183,69 @@ canvas.create_text(
     fill="#000000",
     font=(gnrl_font)
 )
+def Switch(btn):
+    global flag_wClient
+    global flag_lmsp
+    global flag_fzip
+    global flag_fecha
+    global flag_fnumber
+    global flag_lenguaje
+    global flag_wrap
+    if btn == "wClient":
+        if flag_wClient:
+            btn_wClient.config(image=off)
+            flag_wClient = False
+        else:
+            btn_wClient.config(image=on)
+            flag_wClient = True
+    if btn == "lmsp":
+        if flag_lmsp:
+            btn_lmsp.config(image=off)
+            flag_lmsp = False
+        else:
+            btn_lmsp.config(image=on)
+            flag_lmsp = True
+    if btn == "gzip":
+        if flag_gzip:
+            btn_gzip.config(image=off)
+            flag_gzip = False
+        else:
+            btn_gzip.config(image=on)
+            flag_gzip = True
+    if btn == "fecha":
+        if flag_fecha:
+            btn_fecha.config(image=off)
+            flag_fecha = False
+        else:
+            btn_fecha.config(image=on)
+            flag_fecha = True
+    if btn == "fnumber":
+        if flag_fnumber:
+            btn_fnumber.config(image=off)
+            flag_fnumber = False
+        else:
+            btn_fnumber.config(image=on)
+            flag_fnumber = True
+    if btn == "lenguaje":
+        if flag_lenguaje:
+            btn_lenguaje.config(image=off)
+            flag_lenguaje = False
+        else:
+            btn_lenguaje.config(image=on)
+            flag_lenguaje = True
+    if btn == "wrap":
+        if flag_wrap:
+            btn_wrap.config(image=off)
+            flag_wrap = False
+        else:
+            btn_wrap.config(image=on)
+            flag_wrap = True
+
 
 btn_wClient = Button(
     image=on,
     bd=0,
-    command=Switch,
+    command=Switch("wClient"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -228,7 +268,7 @@ canvas.create_text(
 btn_lmsp = Button(
     image=on,
     bd=0,
-    command=Switch,
+    command=Switch("lmsp"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -252,7 +292,7 @@ canvas.create_text(
 btn_gzip = Button(
     image=on,
     bd=0,
-    command=Switch,
+    command=Switch("gzip"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -284,7 +324,7 @@ canvas.create_text(
 btn_fecha = Button(
     image=on,
     bd=0,
-    command=Switch,
+    command=Switch("fecha"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -306,7 +346,7 @@ canvas.create_text(
 btn_fnumber = Button(
     image=on,
     bd=0,
-    command=Switch,
+    command=Switch("fnumber"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -326,16 +366,16 @@ canvas.create_text(
     font=(gnrl_font)
 )
 
-btn_Lenguaje = Button(
+btn_lenguaje = Button(
     image=on,
     bd=0,
-    command=Switch,
+    command=Switch("lenguaje"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
     height=12
 )
-btn_Lenguaje.place(
+btn_lenguaje.place(
     x=ajuste_x_btn,
     y=508.0
 )
@@ -353,7 +393,7 @@ canvas.create_text(
 btn_wrap = Button(
     image=on,
     bd=0,
-    command=Switch,
+    command=Switch("wrap"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
