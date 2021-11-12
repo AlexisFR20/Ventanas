@@ -33,13 +33,7 @@ posicion = str(ancho_ventana) + "x" + str(alto_ventana) + \
 window.geometry(posicion)
 
 # Configuraciones de botones a utilizar
-flag_wClient = True
-flag_lmsp = True
-flag_fzip = True
-flag_fecha = True
-flag_fnumber = True
-flag_lenguaje = True
-flag_wrap = True
+
 ajuste_x_btn = 400
 
 
@@ -49,8 +43,8 @@ title_font = Font(family=f_font, size=18)
 sbtl_font = Font(family=f_font, size=14)
 gnrl_font = Font(family=f_font, size=10)
 
-on = PhotoImage(file="assets/on24.png")
-off = PhotoImage(file="assets/off24.png")
+on = PhotoImage(file="assets/on-24.png")
+off = PhotoImage(file="assets/off-24.png")
 
 canvas = Canvas(
     window,
@@ -90,25 +84,35 @@ canvas.create_text(
 )
 
 
-checkframe = tk.Frame(window, bg="white", )
+checkframe = tk.Frame(window, bg="white")
 checkframe.place(x=60, y=158)
+
+disabled = False
+admin = False
 
 
 def is_disabled():
-    try:
-        rutines.editHost()
+    global disabled
+    if disabled != True:
+        try:
+            rutines.editHost()
+            c2.select()
+            disabled = True
+        except:
+            disabled = False
+            c2.deselect()
+    else:
         c2.select()
-    except:
-        c2.deselect()
+        disabled = True
 
 
 def is_admin():
-    is_admin = False
+    global admin
     try:
-        is_admin = os.getuid() == 0
+        admin = os.getuid() == 0
     except AttributeError:
-        is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
-    if(is_admin):
+        admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+    if(admin):
         c1.select()
     else:
         c1.deselect()
@@ -117,17 +121,22 @@ def is_admin():
 def check():
     is_disabled()
     is_admin()
+    if disabled and admin != True:
+        changeState(0)
+    else:
+        changeState(1)
 
 
 vc1 = tk.IntVar(checkframe)
 vc2 = tk.IntVar(checkframe)
 
 c1 = tk.Checkbutton(checkframe, text='El usuario es administrador', font=gnrl_font,
-                    variable=vc1, state="disabled", bg="white")
+                    variable=vc1, state="disabled",  bg="white")
 c1.grid(column=1, row=2)
 
 c2 = tk.Checkbutton(checkframe, text='User Account Control: Run all administrators \nin Admin Approval Mode: [Disable]', font=gnrl_font,
                     variable=vc2, state="disabled", bg="white")
+
 c2.grid(column=2, row=2)
 
 button_1 = Button(
@@ -173,8 +182,6 @@ canvas.create_text(
     font=(sbtl_font)
 )
 
-
-
 canvas.create_text(
     114.0,
     291.0,
@@ -183,14 +190,55 @@ canvas.create_text(
     fill="#000000",
     font=(gnrl_font)
 )
+
+flag_wClient = True
+flag_lmsp = True
+flag_gzip = True
+flag_fecha = True
+flag_fnumber = True
+flag_lenguaje = True
+flag_wrap = True
+flag_installWClient = True
+flag_installLMS = True
+flag_installWinSCP = True
+
+
+def changeState(mode):
+    if mode == 0:
+        btn_wClient.config(state='disabled')
+        btn_lmsp.config(state='disabled')
+        btn_gzip.config(state='disabled')
+        btn_fecha.config(state='disabled')
+        btn_fnumber.config(state='disabled')
+        btn_lenguaje.config(state='disabled')
+        btn_wrap.config(state='disabled')
+        btn_installWClient.config(state='disabled')
+        btn_installWinSCP.config(state='disabled')
+        btn_installLMS.config(state='disabled')
+    else:
+        btn_wClient.config(state='active')
+        btn_lmsp.config(state='active')
+        btn_gzip.config(state='active')
+        btn_fecha.config(state='active')
+        btn_fnumber.config(state='active')
+        btn_lenguaje.config(state='active')
+        btn_wrap.config(state='active')
+        btn_installWClient.config(state='active')
+        btn_installWinSCP.config(state='active')
+        btn_installLMS.config(state='active')
+
+
 def Switch(btn):
     global flag_wClient
     global flag_lmsp
-    global flag_fzip
+    global flag_gzip
     global flag_fecha
     global flag_fnumber
     global flag_lenguaje
     global flag_wrap
+    global flag_installWClient
+    global flag_installLMS
+    global flag_installWinSCP
     if btn == "wClient":
         if flag_wClient:
             btn_wClient.config(image=off)
@@ -240,12 +288,33 @@ def Switch(btn):
         else:
             btn_wrap.config(image=on)
             flag_wrap = True
+    if btn == "installWClient":
+        if flag_installWClient:
+            btn_installWClient.config(image=off)
+            flag_installWClient = False
+        else:
+            btn_installWClient.config(image=on)
+            flag_installWClient = True
+    if btn == "installLMS":
+        if flag_installLMS:
+            btn_installLMS.config(image=off)
+            flag_installLMS = False
+        else:
+            btn_installLMS.config(image=on)
+            flag_installLMS = True
+    if btn == "installWinSCP":
+        if flag_installWinSCP:
+            btn_installWinSCP.config(image=off)
+            flag_installWinSCP = False
+        else:
+            btn_installWinSCP.config(image=on)
+            flag_installWinSCP = True
 
 
 btn_wClient = Button(
     image=on,
     bd=0,
-    command=Switch("wClient"),
+    command=lambda: Switch("wClient"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -268,7 +337,7 @@ canvas.create_text(
 btn_lmsp = Button(
     image=on,
     bd=0,
-    command=Switch("lmsp"),
+    command=lambda: Switch("lmsp"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -292,7 +361,7 @@ canvas.create_text(
 btn_gzip = Button(
     image=on,
     bd=0,
-    command=Switch("gzip"),
+    command=lambda: Switch("gzip"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -324,7 +393,7 @@ canvas.create_text(
 btn_fecha = Button(
     image=on,
     bd=0,
-    command=Switch("fecha"),
+    command=lambda: Switch("fecha"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -346,7 +415,7 @@ canvas.create_text(
 btn_fnumber = Button(
     image=on,
     bd=0,
-    command=Switch("fnumber"),
+    command=lambda: Switch("fnumber"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -369,7 +438,7 @@ canvas.create_text(
 btn_lenguaje = Button(
     image=on,
     bd=0,
-    command=Switch("lenguaje"),
+    command=lambda: Switch("lenguaje"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -393,7 +462,7 @@ canvas.create_text(
 btn_wrap = Button(
     image=on,
     bd=0,
-    command=Switch("wrap"),
+    command=lambda: Switch("wrap"),
     bg="#FFFFFF",
     fg='#FFFFFF',
     width=22,
@@ -404,6 +473,84 @@ btn_wrap.place(
     y=542
 )
 
+canvas.create_text(
+    36.0,
+    590.0,
+    anchor="nw",
+    text="ARCHIVOS A INSTALAR",
+    fill="#000000",
+    font=(sbtl_font)
+)
 
+canvas.create_text(
+    114.0,
+    624.0,
+    anchor="nw",
+    text="Instalar Web Client",
+    fill="#000000",
+    font=(gnrl_font)
+)
+
+btn_installWClient = Button(
+    image=on,
+    bd=0,
+    command=lambda: Switch("installWClient"),
+    bg="#FFFFFF",
+    fg='#FFFFFF',
+    width=22,
+    height=12
+)
+
+btn_installWClient.place(
+    x=ajuste_x_btn,
+    y=624
+)
+canvas.create_text(
+    114.0,
+    658.0,
+    anchor="nw",
+    text="Instalar LMS 12.2.prowcapc",
+    fill="#000000",
+    font=(gnrl_font)
+)
+
+btn_installLMS = Button(
+    image=on,
+    bd=0,
+    command=lambda: Switch("installLMS"),
+    bg="#FFFFFF",
+    fg='#FFFFFF',
+    width=22,
+    height=12
+)
+btn_installLMS.place(
+    x=ajuste_x_btn,
+    y=658
+)
+
+canvas.create_text(
+    114.0,
+    692.0,
+    anchor="nw",
+    text="Instalar WinSCP (Desde software center)",
+    fill="#000000",
+    font=(gnrl_font)
+)
+
+btn_installWinSCP = Button(
+    image=on,
+    bd=0,
+    command=lambda: Switch("installWinSCP"),
+    bg="#FFFFFF",
+    fg='#FFFFFF',
+    width=22,
+    height=12
+)
+
+btn_installWinSCP.place(
+    x=ajuste_x_btn,
+    y=692
+)
+changeState(0)
 window.resizable(False, False)
 window.mainloop()
