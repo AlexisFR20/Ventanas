@@ -5,9 +5,6 @@ import pandas as pd
 from tkinter.font import Font
 
 
-root = tk.Tk()
-
-
 def seleccion():
     global curItem
     global title
@@ -24,8 +21,10 @@ def seleccion():
         actual.set("ULTIMA VERSION")
 
 
-def my_treeview():
-    window = tk.Toplevel()
+def my_treeview(root):
+    window = tk.Toplevel(root)
+    window.grab_set()
+    window.focus_set()
     window.configure(bg="#FFFFFF")
     window.title('VERSIONES LMS 12.2')
 
@@ -83,6 +82,9 @@ def my_treeview():
     actual= tk.StringVar()
     actual.set("ULTIMA VERSION")
     
+    def aceptar():
+        window.destroy()
+    
     # Boton
     boton = tk.Button(
         window,
@@ -109,19 +111,15 @@ def my_treeview():
 
     boton = tk.Button(
         window,
-        text="ACEPTAR",
+        text="ACEPTAR Y CERRAR",
         bg="#C13737",
         fg='#FFFFFF',
         borderwidth=1,
         highlightthickness=0,
-        command=seleccion,
+        command=aceptar,
         relief="flat",
         width=20,
         height=2)
-    boton.place(x=360, y=290)
+    boton.place(x=360, y=300)
     return var
 
-
-treeview = tk.Button(root, text="open treeview", command=my_treeview).pack()
-
-root.mainloop()

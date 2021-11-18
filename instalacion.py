@@ -96,7 +96,10 @@ def createView(app):
 
     checkframe = tk.Frame(newWindow, bg="white")
     checkframe.place(x=60, y=158)
-
+    def changeVersion():
+        x = version.my_treeview(newWindow)
+        print(x)
+        
     def is_disabled():
         global disabled
         if disabled != True:
@@ -355,18 +358,15 @@ def createView(app):
         newWindow,
         image=config,
         borderwidth=0,
+        command=changeVersion,
         highlightthickness=0,
-        # command=installLMS,
         relief="flat",
         bg="#FFFFFF",
-        # fg='#FFFFFF'
     )
 
     btn_version.place(
-        x=ajuste_x_btn + 25,
+        x=ajuste_x_btn + 35,
         y=327,
-        # width=150,
-        # height=20
     )
 
     
@@ -617,12 +617,6 @@ def createView(app):
     btn_pathWinSCP.place(
         x=ajuste_x_btn,
         y=726
-    )
-    
-    pb1 = Progressbar(newWindow, orient="horizontal", length=400)
-    pb1.place(
-        x=ajuste_x_btn+100,
-        y=500
     )
     
     changeState(0)
